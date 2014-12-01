@@ -64,7 +64,9 @@ PID::PID(double* Input, double* Output, double* Setpoint,
 {
   // default output limit corresponds to
   // the arduino pwm limits
-  PID::setOutputLimits(0, 255); 
+  //this is unneeded as you setOutputLimits(0,100) in void.setup 
+  // redefining as 255 messes up the math behind PID
+  //PID::setOutputLimits(0, 255); 
  
   // default Controller Sample Time is 0.1 seconds
   sampleTime = DEFAULT_LOOP_SAMPLE_TIME;

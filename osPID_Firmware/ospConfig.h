@@ -24,13 +24,39 @@ PROGMEM const char Pversion[] = "v1.0";
  ********************************************/
 
 // pin assignment for LCD display
-static const byte lcdRsPin     = 2; 
+static const byte lcdRsPin     = 8; 
 static const byte lcdEnablePin = 3; 
-static const byte lcdD0Pin     = 7; 
+static const byte lcdD0Pin     = 12; 
 static const byte lcdD1Pin     = 6; 
 static const byte lcdD2Pin     = 5; 
 static const byte lcdD3Pin     = 4;
+static const byte lcdREDPin    = 9;
+static const byte lcdGRNPin    = 10;
+static const byte lcdBLUPin    = 11;
 
+//misc LCD shit
+static int  brightness   = 255;
+//LED normalization code to prevent red from overpowering other colors
+//testing code right now uncommenting would result in "swirl" of rgb colors
+// the entire time LCD was "on"
+void setBacklight(uint8_t r, uint8_t g, uint8_t b) {
+  // normalize the red LED - its brighter than the rest!
+  r = map(r, 0, 255, 0, 100);
+  g = map(g, 0, 255, 0, 150);
+ 
+  r = map(r, 0, 255, 0, brightness);
+  g = map(g, 0, 255, 0, brightness);
+  b = map(b, 0, 255, 0, brightness);
+ 
+  // common anode so invert!
+  r = map(r, 0, 255, 255, 0);
+  g = map(g, 0, 255, 255, 0);
+  b = map(b, 0, 255, 255, 0);
+  analogWrite(lcdREDPin, r);
+  analogWrite(lcdGRNPin, g);
+  analogWrite(lcdBLUPin, b);
+ }
+ 
 // pin assignments for input devices 
 static const byte thermistorPin       = A0;
 static const byte oneWireBus          = A0;

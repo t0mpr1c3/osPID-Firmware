@@ -342,6 +342,30 @@ void setup()
 
   // set up the LCD,show controller name
   theLCD.begin(16, 2);
+   //Color swirl on bootup
+  pinMode(lcdREDPin, OUTPUT);
+  pinMode(lcdGRNPin, OUTPUT);
+  pinMode(lcdBLUPin, OUTPUT);
+  
+  brightness = 200;
+  
+//Code to correct the red color from overpowering the other RGB colors  
+  //start red to green
+  for (int i = 0; i < 255; i++) {
+    setBacklight(i, 0, 255-i);
+    delay(2);
+  }
+  //fade red to green
+  for (int i = 0; i < 255; i++) {
+    setBacklight(255-i, i, 0);
+    delay(2);
+  }
+  //fade green to blue
+  for (int i = 0; i < 255; i++) {
+    setBacklight(0, 255-i, i);
+    delay(2);
+  }
+  setBacklight(0,255,0);
   drawStartupBanner();
 
   lcdTime = 25;
